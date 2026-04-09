@@ -25,7 +25,7 @@ def _normalized_words(text: str) -> list[str]:
 
 def word_count(text: str) -> int:
     """Return the number of words in *text*."""
-    return len(text.split())
+    return len(text.split(" "))
 
 
 def sentence_count(text: str) -> int:
