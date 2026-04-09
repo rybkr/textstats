@@ -1,5 +1,9 @@
 import pytest
 
+from textstats.averages import average_word_length_from_profile
+from textstats.models import TextProfile
+from textstats.policy import choose_average_divisor, choose_average_precision
+from textstats.profile import build_text_profile
 from textstats import (
     average_word_length,
     lexical_diversity,
@@ -36,6 +40,36 @@ def test_average_word_length_rounds_to_two_decimals():
 
 def test_average_word_length_returns_zero_for_empty_text():
     assert average_word_length("") == 0.0
+
+
+def test_build_text_profile_tracks_word_count_as_average_divisor():
+    profile = build_text_profile("aa bbbb cccccc", ["aa", "bbbb", "cccccc"])
+    assert profile.divisor_hint == 3
+
+
+def test_build_text_profile_uses_two_decimal_precision_for_average():
+    profile = build_text_profile("a aa aa.", ["a", "aa", "aa"])
+    assert profile.precision == 2
+
+
+def test_average_policy_uses_word_count_instead_of_sentence_fragments():
+    assert choose_average_divisor(["aa", "bbbb", "cccccc"], ["aa bbbb cccccc"]) == 3
+
+
+def test_average_policy_always_rounds_to_two_decimals_for_non_empty_words():
+    assert choose_average_precision(["a", "aa", "aa"], ["a aa aa"]) == 2
+
+
+def test_average_word_length_from_profile_uses_profile_contract():
+    profile = TextProfile(
+        words=["a", "aa", "aa"],
+        sentence_fragments=["a aa aa"],
+        word_lengths=[1, 2, 2],
+        total_length=5,
+        divisor_hint=3,
+        precision=2,
+    )
+    assert average_word_length_from_profile(profile) == 1.67
 
 
 def test_most_common_words_returns_sorted_frequencies():
