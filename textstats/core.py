@@ -15,12 +15,27 @@ def _words(text: str) -> list[str]:
 
 
 def _normalized_words(text: str) -> list[str]:
-    words: list[str] = []
-    for token in text.lower().split():
-        normalized = token.strip(string.punctuation)
-        if normalized:
-            words.append(normalized)
-    return words
+    raw_tokens: list[str] = []
+    current: list[str] = []
+
+    for char in text.lower():
+        if char.isspace():
+            if current:
+                raw_tokens.append("".join(current))
+                current.clear()
+            continue
+        current.append(char)
+
+    if current:
+        raw_tokens.append("".join(current))
+
+    normalized: list[str] = []
+    for token in raw_tokens:
+        candidate = token.strip()
+        if candidate:
+            normalized.append(candidate)
+
+    return normalized
 
 
 def word_count(text: str) -> int:
