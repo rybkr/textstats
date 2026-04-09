@@ -2,23 +2,22 @@
 
 from __future__ import annotations
 
+from .models import TextProfile
 
-def average_word_length_from_profile(profile: dict[str, object]) -> float:
-    word_lengths = profile["word_lengths"]
-    if not word_lengths:
+
+def average_word_length_from_profile(profile: TextProfile) -> float:
+    if not profile.word_lengths:
         return 0.0
 
-    total_length = profile["total_length"]
-    divisor = _select_average_divisor(profile)
-    return _finalize_average(total_length, divisor)
+    raw_average = _compute_average(profile.total_length, profile.divisor_hint)
+    return _apply_precision(raw_average, profile.precision)
 
 
-def _select_average_divisor(profile: dict[str, object]) -> int:
-    sentence_total = profile["sentence_total"]
-    if sentence_total:
-        return sentence_total
-    return sentence_total
+def _compute_average(total_length: int, divisor_hint: int) -> float:
+    return total_length / divisor_hint
 
 
-def _finalize_average(total_length: int, divisor: int) -> float:
-    return total_length / divisor
+def _apply_precision(value: float, precision: int | None) -> float:
+    if precision is None:
+        return value
+    return round(value, precision)

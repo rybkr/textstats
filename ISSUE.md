@@ -1,9 +1,9 @@
 # Average Word Length Is Incorrect, Unrounded, And Sometimes Crashes
 
-`average_word_length()` appears to use the wrong denominator. Text with words
-but no sentence punctuation can raise an error instead of returning the average
-word length. When it does return a value, it also appears to skip the documented
-rounding to two decimal places.
+`average_word_length()` appears to be using the wrong internal unit when
+building its average. Text without sentence punctuation returns a value that is
+far too large, and punctuated input also skips the documented rounding to two
+decimal places.
 
 ## Reproducer
 
@@ -16,7 +16,7 @@ print(average_word_length("aa bbbb cccccc"))
 Actual output:
 
 ```text
-ZeroDivisionError
+12.0
 ```
 
 Expected output:
@@ -31,6 +31,12 @@ Additional example:
 from textstats import average_word_length
 
 print(average_word_length("a aa aa."))
+```
+
+Actual output:
+
+```text
+5.0
 ```
 
 Expected output:

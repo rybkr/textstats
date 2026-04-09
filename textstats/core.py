@@ -7,7 +7,7 @@ import string
 from collections import Counter
 
 from .averages import average_word_length_from_profile
-from .profile import build_word_profile
+from .profile import build_text_profile
 
 _WORD_RE = re.compile(r"\b[\w']+\b")
 _SENTENCE_RE = re.compile(r"[.!?]+")
@@ -35,13 +35,14 @@ def sentence_count(text: str) -> int:
     """Return the number of sentences split on ., !, and ?."""
     return len(_SENTENCE_RE.findall(text))
 
+
 def average_word_length(text: str) -> float:
     """Return the mean word length rounded to two decimal places."""
     words = _words(text)
     if not words:
         return 0.0
 
-    profile = build_word_profile(words, sentence_count(text))
+    profile = build_text_profile(text, words)
     return average_word_length_from_profile(profile)
 
 
