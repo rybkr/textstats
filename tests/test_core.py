@@ -31,7 +31,7 @@ def test_average_word_length_returns_mean_length():
 
 
 def test_average_word_length_rounds_to_two_decimals():
-    assert average_word_length("a aa aa") == 1.67
+    assert average_word_length("a aa aa.") == 1.67
 
 
 def test_average_word_length_returns_zero_for_empty_text():
