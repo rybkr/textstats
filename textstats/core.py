@@ -6,6 +6,9 @@ import re
 import string
 from collections import Counter
 
+from .averages import average_word_length_from_profile
+from .profile import build_text_profile
+
 _WORD_RE = re.compile(r"\b[\w']+\b")
 _SENTENCE_RE = re.compile(r"[.!?]+")
 
@@ -38,8 +41,9 @@ def average_word_length(text: str) -> float:
     words = _words(text)
     if not words:
         return 0.0
-    average = sum(len(word) for word in words) / len(words)
-    return round(average, 2)
+
+    profile = build_text_profile(text, words)
+    return average_word_length_from_profile(profile)
 
 
 def most_common_words(text: str, n: int = 5) -> list[tuple[str, int]]:
