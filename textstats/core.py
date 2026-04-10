@@ -6,21 +6,14 @@ import re
 import string
 from collections import Counter
 
+from .tokenize import normalized_words
+
 _WORD_RE = re.compile(r"\b[\w']+\b")
 _SENTENCE_RE = re.compile(r"[.!?]+")
 
 
 def _words(text: str) -> list[str]:
     return _WORD_RE.findall(text)
-
-
-def _normalized_words(text: str) -> list[str]:
-    words: list[str] = []
-    for token in text.lower().split():
-        normalized = token.strip(string.punctuation)
-        if normalized:
-            words.append(normalized)
-    return words
 
 
 def word_count(text: str) -> int:
@@ -46,7 +39,7 @@ def most_common_words(text: str, n: int = 5) -> list[tuple[str, int]]:
     """Return the *n* most common lowercase words with punctuation stripped."""
     if n <= 0:
         return []
-    counts = Counter(_normalized_words(text))
+    counts = Counter(normalized_words(text))
     return counts.most_common(n)
 
 
@@ -59,7 +52,7 @@ def reading_time(text: str, wpm: int = 200) -> float:
 
 def lexical_diversity(text: str) -> float:
     """Return the ratio of unique words to total words rounded to four decimals."""
-    words = _normalized_words(text)
+    words = normalized_words(text)
     if not words:
         return 0.0
     diversity = len(set(words)) / len(words)
