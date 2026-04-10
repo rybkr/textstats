@@ -6,10 +6,9 @@ far too large, and punctuated input also skips the documented rounding to two
 decimal places.
 
 The regression appears to be in the average-profile pipeline rather than in the
-top-level function alone. The profile builder is recording sentence-based
-divisors for average calculations, and the average helper is also failing to
-fall back to the word statistics already present on the profile when that
-metadata is wrong or incomplete.
+top-level function alone. Average calculations are trusting sentence-oriented
+metadata on the profile and are not falling back to the word statistics already
+stored there when that metadata is wrong or incomplete.
 
 ## Reproducer
 

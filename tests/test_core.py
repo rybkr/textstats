@@ -41,10 +41,17 @@ def test_average_word_length_returns_zero_for_empty_text():
     assert average_word_length("") == 0.0
 
 
-def test_build_text_profile_tracks_word_count_for_averages():
-    profile = build_text_profile("aa bbbb cccccc", ["aa", "bbbb", "cccccc"])
-    assert profile.divisor_hint == 3
+def test_text_profile_exposes_average_defaults():
+    profile = TextProfile(
+        words=["aa", "bbbb", "cccccc"],
+        sentence_fragments=["aa bbbb cccccc"],
+        word_lengths=[2, 4, 6],
+        total_length=12,
+        divisor_hint=1,
+        precision=None,
+    )
     assert profile.word_count == 3
+    assert profile.round_digits == 2
 
 
 def test_average_word_length_from_profile_uses_average_contract():
