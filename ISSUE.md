@@ -5,6 +5,12 @@ building its average. Text without sentence punctuation returns a value that is
 far too large, and punctuated input also skips the documented rounding to two
 decimal places.
 
+The regression appears to be in the average-profile pipeline rather than in the
+top-level function alone. The profile builder is recording sentence-based
+metadata for average calculations, and the average helper is trusting that
+metadata directly instead of the word statistics already present on the
+profile.
+
 ## Reproducer
 
 ```python

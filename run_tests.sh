@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-pytest tests/test_core.py -q -k "test_average_word_length_returns_mean_length or test_average_word_length_rounds_to_two_decimals"
+pytest tests/test_core.py -q -k "test_average_word_length_returns_mean_length or test_average_word_length_rounds_to_two_decimals or test_build_text_profile_tracks_word_count_for_averages or test_build_text_profile_uses_two_decimal_rounding_for_averages or test_average_word_length_from_profile_uses_average_contract"
