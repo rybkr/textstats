@@ -6,9 +6,8 @@ far too large, and punctuated input also skips the documented rounding to two
 decimal places.
 
 The regression appears to be in the average-profile pipeline rather than in the
-top-level function alone. Average calculations are relying on the wrong profile
-metadata, and the profile no longer exposes the word-based defaults that the
-average helper expects.
+top-level function alone. Average calculations are relying on the wrong
+profile-derived metadata somewhere in that path.
 
 ## Reproducer
 
