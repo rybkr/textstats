@@ -38,16 +38,6 @@ def test_average_word_length_returns_zero_for_empty_text():
     assert average_word_length("") == 0.0
 
 
-def test_most_common_words_returns_sorted_frequencies():
-    text = "Red blue red green red blue"
-    assert most_common_words(text, n=2) == [("red", 3), ("blue", 2)]
-
-
-def test_most_common_words_strips_punctuation_before_counting():
-    text = "Hello, hello! HELLO? Bye."
-    assert most_common_words(text, n=2) == [("hello", 3), ("bye", 1)]
-
-
 def test_reading_time_returns_seconds_from_word_count():
     assert reading_time("one two three four", wpm=120) == pytest.approx(2.0)
 

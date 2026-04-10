@@ -1,50 +1,34 @@
-# Average Word Length Is Incorrect, Unrounded, And Sometimes Crashes
+# Summary CLI Ignores `--top-n` And Documents The Wrong Default
 
-`average_word_length()` appears to be using the wrong internal unit when
-building its average. Text without sentence punctuation returns a value that is
-far too large, and punctuated input also skips the documented rounding to two
-decimal places.
-
-The regression appears to be in the average-profile pipeline rather than in the
-top-level function alone. Average calculations are relying on the wrong
-profile-derived metadata somewhere in that path.
+The repository now includes a small summary/report path for command-line use,
+but it is not honoring the caller's requested top-word count. The CLI help text
+also still advertises the old default.
 
 ## Reproducer
 
 ```python
-from textstats import average_word_length
+import subprocess
+import sys
 
-print(average_word_length("aa bbbb cccccc"))
+subprocess.run(
+    [sys.executable, "-m", "textstats", "Red blue red green red blue", "--top-n", "2"],
+    check=True,
+)
 ```
 
 Actual output:
 
 ```text
-12.0
+- red: 3
+- blue: 2
+- green: 1
 ```
 
 Expected output:
 
 ```text
-4.0
+- red: 3
+- blue: 2
 ```
 
-Additional example:
-
-```python
-from textstats import average_word_length
-
-print(average_word_length("a aa aa."))
-```
-
-Actual output:
-
-```text
-5.0
-```
-
-Expected output:
-
-```text
-1.67
-```
+The `--help` output should also describe the current default top-word count.
