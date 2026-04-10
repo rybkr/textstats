@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-pytest tests/test_core.py -q -k "test_most_common_words_splits_words_joined_by_slashes or test_most_common_words_preserves_internal_apostrophes or test_lexical_diversity_uses_normalized_word_boundaries"
+pytest tests/test_core.py -q -k "test_sentence_count_counts_sentence_terminators or test_sentence_count_handles_text_without_terminators or test_sentence_count_ignores_abbreviations_and_decimals or test_sentence_count_counts_real_endings_after_titles"

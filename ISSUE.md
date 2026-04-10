@@ -1,31 +1,30 @@
-# Frequency Metrics Merge Separator-Paired Words And Lose Contractions
+# Sentence Count Overcounts Abbreviations And Decimal Points
 
-`most_common_words()` and `lexical_diversity()` are normalizing punctuation too
-aggressively. Punctuation used as a separator is being removed instead of
-splitting words, and apostrophes inside contractions are being dropped.
+`sentence_count()` is treating punctuation inside abbreviations and decimals as
+full sentence endings. The result is inflated counts for otherwise simple text.
+
+The exact failure mode is a little unclear from the top-level function, but it
+looks like sentence splitting was recently moved behind a helper.
 
 ## Reproducer
 
 ```python
-from textstats import lexical_diversity, most_common_words
+from textstats import sentence_count
 
-print(most_common_words("Red/blue red blue", n=2))
-print(most_common_words("Don't stop, don’t stop.", n=2))
-print(lexical_diversity("Red/blue red blue"))
+print(sentence_count("Dr. Rivera arrived at 3.14 p.m. sharp."))
+print(sentence_count("Ms. Chen asked, 'Ready?' Then we left."))
 ```
 
 Actual output:
 
 ```text
-[('redblue', 1), ('red', 1)]
-[('dont', 1), ('stop', 1)]
-1.0
+5
+3
 ```
 
 Expected output:
 
 ```text
-[('red', 2), ('blue', 2)]
-[("don't", 2), ('stop', 2)]
-0.5
+1
+2
 ```
