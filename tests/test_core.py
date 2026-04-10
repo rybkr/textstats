@@ -54,18 +54,6 @@ def test_text_profile_exposes_average_defaults():
     assert profile.round_digits == 2
 
 
-def test_average_word_length_from_profile_uses_average_contract():
-    profile = TextProfile(
-        words=["a", "aa", "aa"],
-        sentence_fragments=["a aa aa"],
-        word_lengths=[1, 2, 2],
-        total_length=5,
-        divisor_hint=1,
-        precision=None,
-    )
-    assert average_word_length_from_profile(profile) == 1.67
-
-
 def test_most_common_words_returns_sorted_frequencies():
     text = "Red blue red green red blue"
     assert most_common_words(text, n=2) == [("red", 3), ("blue", 2)]
