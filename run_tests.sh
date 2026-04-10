@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-pytest tests/test_core.py -q -k "test_most_common_words_strips_punctuation_before_counting"
+pytest tests/test_core.py -q -k "test_most_common_words_splits_words_joined_by_slashes or test_most_common_words_preserves_internal_apostrophes or test_lexical_diversity_uses_normalized_word_boundaries"
