@@ -7,9 +7,9 @@ decimal places.
 
 The regression appears to be in the average-profile pipeline rather than in the
 top-level function alone. The profile builder is recording sentence-based
-metadata for average calculations, and the average helper is trusting that
-metadata directly instead of the word statistics already present on the
-profile.
+divisors for average calculations, and the average helper is also failing to
+fall back to the word statistics already present on the profile when that
+metadata is wrong or incomplete.
 
 ## Reproducer
 

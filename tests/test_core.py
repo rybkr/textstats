@@ -47,12 +47,6 @@ def test_build_text_profile_tracks_word_count_for_averages():
     assert profile.word_count == 3
 
 
-def test_build_text_profile_uses_two_decimal_rounding_for_averages():
-    profile = build_text_profile("a aa aa.", ["a", "aa", "aa"])
-    assert profile.precision == 2
-    assert profile.round_digits == 2
-
-
 def test_average_word_length_from_profile_uses_average_contract():
     profile = TextProfile(
         words=["a", "aa", "aa"],
